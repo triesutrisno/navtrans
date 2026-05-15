@@ -15,7 +15,7 @@ class CreateUserroleTable extends Migration
     {
         Schema::create('userrole', function (Blueprint $table) {
             $table->bigIncrements('userrole_id')->unsigned();
-            $table->string('username',50);
+            $table->bigInteger('user_id');
             $table->string('role_nama',50);
             $table->string('userrole_status',2)->nullable();
             $table->softDeletes();
