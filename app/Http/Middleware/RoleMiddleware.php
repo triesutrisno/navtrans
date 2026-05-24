@@ -20,7 +20,7 @@ class RoleMiddleware
         }
 
         $user = auth()->user();
-        
+
         // ambil role user (sesuaikan dengan relasi kamu)
         $userRoles = $user->roles->pluck('role_nama')->toArray();
         //dd($user->roles->pluck('role_nama'));
@@ -32,8 +32,8 @@ class RoleMiddleware
             }
         }
 
-        //abort(403, 'Akses ditolak');
-        return redirect('/dashboard')
-        ->with('error', 'Anda tidak memiliki akses ke halaman tersebut');
+        // Jika user tidak punya role yang sesuai, hentikan request dengan 403
+        // Mengembalikan abort menghindari kemungkinan loop redirect.
+        abort(403, 'Anda tidak memiliki akses ke halaman tersebut');
     }
 }
