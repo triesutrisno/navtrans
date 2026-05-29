@@ -11,25 +11,25 @@
             @csrf
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Nama Supir</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Nama Supir *</label>
                 <input type="text" name="driver_nama" value="{{ old('driver_nama', $data->driver_nama) }}" maxlength="100" class="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
                 @error('driver_nama')<div class="text-red-500 text-sm mt-1">{{ $message }}</div>@enderror
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Nomor KTP</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Nomor KTP *</label>
                 <input type="text" name="driver_ktp" value="{{ old('driver_ktp', $data->driver_ktp) }}" maxlength="20" class="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
                 @error('driver_ktp')<div class="text-red-500 text-sm mt-1">{{ $message }}</div>@enderror
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">No. HP</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">No. HP *</label>
                 <input type="text" name="driver_hp" value="{{ old('driver_hp', $data->driver_hp) }}" maxlength="20" class="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
                 @error('driver_hp')<div class="text-red-500 text-sm mt-1">{{ $message }}</div>@enderror
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Transporter</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Transporter *</label>
                 <select name="transporter_id" class="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
                     <option value="">-- Pilih Transporter --</option>
                     @foreach($transporters as $transporter)
@@ -40,7 +40,7 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Jenis SIM</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Jenis SIM *</label>
                 <select name="jns_sim_id" class="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
                     <option value="">-- Pilih Jenis SIM --</option>
                     @foreach($jenisSim as $sim)
@@ -51,21 +51,22 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Nomor SIM</label>
-                <input type="text" name="driver_no_sim" value="{{ old('driver_no_sim', $data->driver_no_sim) }}" maxlength="20" class="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
-                @error('driver_no_sim')<div class="text-red-500 text-sm mt-1">{{ $message }}</div>@enderror
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Expired SIM</label>
-                <input type="date" name="tgl_exipred_sim" value="{{ old('tgl_exipred_sim', $data->tgl_exipred_sim) }}" class="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
-                @error('tgl_exipred_sim')<div class="text-red-500 text-sm mt-1">{{ $message }}</div>@enderror
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Nomor BPJS</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">No BPJS *</label>
                 <input type="text" name="driver_no_bpjs" value="{{ old('driver_no_bpjs', $data->driver_no_bpjs) }}" maxlength="20" class="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
                 @error('driver_no_bpjs')<div class="text-red-500 text-sm mt-1">{{ $message }}</div>@enderror
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">No SIM *</label>
+                    <input type="text" name="driver_no_sim" value="{{ old('driver_no_sim', $data->driver_no_sim) }}" maxlength="20" class="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                    @error('driver_no_sim')<div class="text-red-500 text-sm mt-1">{{ $message }}</div>@enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tgl Expired SIM *</label>
+                    <input type="date" name="tgl_exipred_sim" value="{{ old('tgl_exipred_sim', $data->tgl_exipred_sim) }}" class="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                    @error('tgl_exipred_sim')<div class="text-red-500 text-sm mt-1">{{ $message }}</div>@enderror
+                </div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-4">

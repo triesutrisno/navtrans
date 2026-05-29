@@ -6,6 +6,7 @@ use App\Models\JenisSim;
 use App\Models\Supir;
 use App\Models\Transporter;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SupirController extends Controller
 {
@@ -40,33 +41,66 @@ class SupirController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'transporter_id' => ['required'],
+        $request->validate([           
+            'transporter_id' => ['required'], 
             'jns_sim_id' => ['required'],
-            'driver_nama' => ['required', 'max:100'],
-            'driver_ktp' => ['required', 'max:20'],
-            'driver_hp' => ['required', 'max:20'],
-            'driver_no_sim' => ['required', 'max:20'],
-            'driver_no_bpjs' => ['required', 'max:20'],
-            'tgl_exipred_sim' => ['required', 'date'],
-            'flag_blokir' => ['required'],
-            'driver_status' => ['required'],
+            'driver_nama' => [
+                'required',
+                'max:100',
+                Rule::unique('supir', 'driver_nama')
+                    ->whereNull('deleted_at')
+            ],
+            'driver_ktp' => [
+                'required',
+                'max:16',
+                Rule::unique('supir', 'driver_ktp')
+                    ->whereNull('deleted_at')
+            ],            
+            'driver_hp' => [
+                'required', 
+                'max:20',
+                Rule::unique('supir', 'driver_hp')
+                    ->whereNull('deleted_at')
+            ],
+            'driver_no_sim' => [
+                'required', 
+                'max:20',
+                Rule::unique('supir', 'driver_no_sim')
+                    ->whereNull('deleted_at')
+            ],
+            'driver_no_bpjs' => [
+                'required', 
+                'max:20',
+                Rule::unique('supir', 'driver_no_bpjs')
+                    ->whereNull('deleted_at')
+            ],
+            'tgl_exipred_sim' => [
+                'required', 
+                'date'
+            ],            
+            'driver_status' => [
+                'required'
+            ],
         ], [
             'transporter_id.required' => 'Transporter wajib dipilih',
             'jns_sim_id.required' => 'Jenis SIM wajib dipilih',
-            'driver_nama.required' => 'Nama supir wajib diisi',
+            'driver_nama.required' => 'Nama Supir wajib diisi',            
+            'driver_nama.unique' => 'Nama Supir sudah digunakan',
             'driver_nama.max' => 'Nama supir maksimal 100 karakter',
-            'driver_ktp.required' => 'Nomor KTP wajib diisi',
-            'driver_ktp.max' => 'Nomor KTP maksimal 20 karakter',
+            'driver_ktp.required' => 'No KTP wajib diisi',
+            'driver_ktp.unique' => 'No KTP sudah digunakan',
+            'driver_ktp.max' => 'No KTP maksimal 16 karakter',
             'driver_hp.required' => 'No. HP wajib diisi',
+            'driver_hp.unique' => 'No. HP sduah digunakan',
             'driver_hp.max' => 'No. HP maksimal 20 karakter',
-            'driver_no_sim.required' => 'Nomor SIM wajib diisi',
-            'driver_no_sim.max' => 'Nomor SIM maksimal 20 karakter',
-            'driver_no_bpjs.required' => 'Nomor BPJS wajib diisi',
-            'driver_no_bpjs.max' => 'Nomor BPJS maksimal 20 karakter',
-            'tgl_exipred_sim.required' => 'Tanggal kedaluwarsa SIM wajib diisi',
-            'tgl_exipred_sim.date' => 'Tanggal kedaluwarsa SIM tidak valid',
-            'flag_blokir.required' => 'Status blokir wajib dipilih',
+            'driver_no_sim.required' => 'No SIM wajib diisi',
+            'driver_no_sim.unique' => 'No SIM sudah digunakan',
+            'driver_no_sim.max' => 'No SIM maksimal 20 karakter',
+            'driver_no_bpjs.required' => 'No BPJS wajib diisi',            
+            'driver_no_bpjs.unique' => 'No BPJS sudah digunakan',
+            'driver_no_bpjs.max' => 'No BPJS maksimal 20 karakter',
+            'tgl_exipred_sim.required' => 'Tgl Expired SIM wajib diisi',
+            'tgl_exipred_sim.date' => 'Tgl Expired SIM tidak valid',
             'driver_status.required' => 'Status supir wajib dipilih',
         ]);
 
@@ -106,33 +140,71 @@ class SupirController extends Controller
     {
         $data = Supir::findOrFail($id);
 
-        $request->validate([
-            'transporter_id' => ['required'],
+        $request->validate([           
+            'transporter_id' => ['required'], 
             'jns_sim_id' => ['required'],
-            'driver_nama' => ['required', 'max:100'],
-            'driver_ktp' => ['required', 'max:20'],
-            'driver_hp' => ['required', 'max:20'],
-            'driver_no_sim' => ['required', 'max:20'],
-            'driver_no_bpjs' => ['required', 'max:20'],
-            'tgl_exipred_sim' => ['required', 'date'],
-            'flag_blokir' => ['required'],
-            'driver_status' => ['required'],
+            'driver_nama' => [
+                'required',
+                'max:100',
+                Rule::unique('supir', 'driver_nama')
+                    ->ignore($id, 'supir_id')
+                    ->whereNull('deleted_at')
+            ],
+            'driver_ktp' => [
+                'required',
+                'max:16',
+                Rule::unique('supir', 'driver_ktp')
+                    ->ignore($id, 'supir_id')
+                    ->whereNull('deleted_at')
+            ],            
+            'driver_hp' => [
+                'required', 
+                'max:20',
+                Rule::unique('supir', 'driver_hp')
+                    ->ignore($id, 'supir_id')
+                    ->whereNull('deleted_at')
+            ],
+            'driver_no_sim' => [
+                'required', 
+                'max:20',
+                Rule::unique('supir', 'driver_no_sim')
+                    ->ignore($id, 'supir_id')
+                    ->whereNull('deleted_at')
+            ],
+            'driver_no_bpjs' => [
+                'required', 
+                'max:20',
+                Rule::unique('supir', 'driver_no_bpjs')
+                    ->ignore($id, 'supir_id')
+                    ->whereNull('deleted_at')
+            ],
+            'tgl_exipred_sim' => [
+                'required', 
+                'date'
+            ],            
+            'driver_status' => [
+                'required'
+            ],
         ], [
             'transporter_id.required' => 'Transporter wajib dipilih',
             'jns_sim_id.required' => 'Jenis SIM wajib dipilih',
-            'driver_nama.required' => 'Nama supir wajib diisi',
+            'driver_nama.required' => 'Nama Supir wajib diisi',            
+            'driver_nama.unique' => 'Nama Supir sudah digunakan',
             'driver_nama.max' => 'Nama supir maksimal 100 karakter',
-            'driver_ktp.required' => 'Nomor KTP wajib diisi',
-            'driver_ktp.max' => 'Nomor KTP maksimal 20 karakter',
+            'driver_ktp.required' => 'No KTP wajib diisi',
+            'driver_ktp.unique' => 'No KTP sudah digunakan',
+            'driver_ktp.max' => 'No KTP maksimal 16 karakter',
             'driver_hp.required' => 'No. HP wajib diisi',
+            'driver_hp.unique' => 'No. HP sduah digunakan',
             'driver_hp.max' => 'No. HP maksimal 20 karakter',
-            'driver_no_sim.required' => 'Nomor SIM wajib diisi',
-            'driver_no_sim.max' => 'Nomor SIM maksimal 20 karakter',
-            'driver_no_bpjs.required' => 'Nomor BPJS wajib diisi',
-            'driver_no_bpjs.max' => 'Nomor BPJS maksimal 20 karakter',
-            'tgl_exipred_sim.required' => 'Tanggal kedaluwarsa SIM wajib diisi',
-            'tgl_exipred_sim.date' => 'Tanggal kedaluwarsa SIM tidak valid',
-            'flag_blokir.required' => 'Status blokir wajib dipilih',
+            'driver_no_sim.required' => 'No SIM wajib diisi',
+            'driver_no_sim.unique' => 'No SIM sudah digunakan',
+            'driver_no_sim.max' => 'No SIM maksimal 20 karakter',
+            'driver_no_bpjs.required' => 'No BPJS wajib diisi',            
+            'driver_no_bpjs.unique' => 'No BPJS sudah digunakan',
+            'driver_no_bpjs.max' => 'No BPJS maksimal 20 karakter',
+            'tgl_exipred_sim.required' => 'Tgl Expired SIM wajib diisi',
+            'tgl_exipred_sim.date' => 'Tgl Expired SIM tidak valid',
             'driver_status.required' => 'Status supir wajib dipilih',
         ]);
 

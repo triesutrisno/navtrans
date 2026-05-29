@@ -7,6 +7,7 @@ use App\Models\JenisFleet;
 use App\Models\Supir;
 use App\Models\Transporter;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ArmadaController extends Controller
 {
@@ -46,13 +47,38 @@ class ArmadaController extends Controller
             'jns_fleet_id' => ['required'],
             'transporter_id' => ['required'],
             'supir_id' => ['required'],
-            'fleet_nopol' => ['required', 'max:10'],
-            'fleet_nopin' => ['required', 'max:10'],
-            'thn_pembuatan' => ['required', 'digits:4'],
-            'no_stnk' => ['required', 'max:20'],
-            'tgl_expired_kir' => ['required', 'date'],
-            'tgl_expired_stnk' => ['required', 'date'],
-            'tgl_expired_pajak' => ['required', 'date'],
+            'fleet_nopol' => [
+                'required',
+                'max:10',
+                Rule::unique('fleet', 'fleet_nopol')
+                    ->whereNull('deleted_at')
+            ],
+            'fleet_nopin' => [
+                'required',
+                'max:10'
+            ],
+            'thn_pembuatan' => [
+                'required',
+                'digits:4'
+            ],
+            'no_stnk' => [
+                'required',
+                'max:20',
+                Rule::unique('fleet', 'no_stnk')
+                    ->whereNull('deleted_at')
+            ],
+            'tgl_expired_kir' => [
+                'required', 
+                'date'
+            ],
+            'tgl_expired_stnk' => [
+                'required', 
+                'date'
+            ],
+            'tgl_expired_pajak' => [
+                'required', 
+                'date'
+            ],
             'flag_blokir' => ['required'],
             'alasan_blokir' => ['nullable', 'max:100'],
             'fleet_status' => ['required'],
@@ -63,12 +89,14 @@ class ArmadaController extends Controller
             'transporter_id.required' => 'Transporter wajib dipilih',
             'supir_id.required' => 'Supir wajib dipilih',
             'fleet_nopol.required' => 'Nomor polisi wajib diisi',
+            'fleet_nopol.unique' => 'Nomor polisi sudah digunakan',
             'fleet_nopol.max' => 'Nomor polisi maksimal 10 karakter',
-            'fleet_nopin.required' => 'Nomor kendaraan wajib diisi',
-            'fleet_nopin.max' => 'Nomor kendaraan maksimal 10 karakter',
+            'fleet_nopin.required' => 'Nomor Pintu wajib diisi',
+            'fleet_nopin.max' => 'Nomor Pintu maksimal 10 karakter',
             'thn_pembuatan.required' => 'Tahun pembuatan wajib diisi',
             'thn_pembuatan.digits' => 'Tahun pembuatan harus 4 digit',
             'no_stnk.required' => 'Nomor STNK wajib diisi',
+            'no_stnk.unique' => 'Nomor STNK sudah digunakan',
             'no_stnk.max' => 'Nomor STNK maksimal 20 karakter',
             'tgl_expired_kir.required' => 'Tanggal expired KIR wajib diisi',
             'tgl_expired_stnk.required' => 'Tanggal expired STNK wajib diisi',
@@ -124,13 +152,40 @@ class ArmadaController extends Controller
             'jns_fleet_id' => ['required'],
             'transporter_id' => ['required'],
             'supir_id' => ['required'],
-            'fleet_nopol' => ['required', 'max:10'],
-            'fleet_nopin' => ['required', 'max:10'],
-            'thn_pembuatan' => ['required', 'digits:4'],
-            'no_stnk' => ['required', 'max:20'],
-            'tgl_expired_kir' => ['required', 'date'],
-            'tgl_expired_stnk' => ['required', 'date'],
-            'tgl_expired_pajak' => ['required', 'date'],
+            'fleet_nopol' => [
+                'required',
+                'max:10',
+                Rule::unique('fleet', 'fleet_nopol')
+                    ->ignore($id, 'fleet_id')
+                    ->whereNull('deleted_at')
+            ],
+            'fleet_nopin' => [
+                'required',
+                'max:10'
+            ],
+            'thn_pembuatan' => [
+                'required',
+                'digits:4'
+            ],
+            'no_stnk' => [
+                'required',
+                'max:20',
+                Rule::unique('fleet', 'no_stnk')
+                    ->ignore($id, 'fleet_id')
+                    ->whereNull('deleted_at')
+            ],
+            'tgl_expired_kir' => [
+                'required', 
+                'date'
+            ],
+            'tgl_expired_stnk' => [
+                'required', 
+                'date'
+            ],
+            'tgl_expired_pajak' => [
+                'required', 
+                'date'
+            ],
             'flag_blokir' => ['required'],
             'alasan_blokir' => ['nullable', 'max:100'],
             'fleet_status' => ['required'],
@@ -141,12 +196,14 @@ class ArmadaController extends Controller
             'transporter_id.required' => 'Transporter wajib dipilih',
             'supir_id.required' => 'Supir wajib dipilih',
             'fleet_nopol.required' => 'Nomor polisi wajib diisi',
+            'fleet_nopol.unique' => 'Nomor polisi sudah digunakan',
             'fleet_nopol.max' => 'Nomor polisi maksimal 10 karakter',
-            'fleet_nopin.required' => 'Nomor kendaraan wajib diisi',
-            'fleet_nopin.max' => 'Nomor kendaraan maksimal 10 karakter',
+            'fleet_nopin.required' => 'Nomor Pintu wajib diisi',
+            'fleet_nopin.max' => 'Nomor Pintu maksimal 10 karakter',
             'thn_pembuatan.required' => 'Tahun pembuatan wajib diisi',
             'thn_pembuatan.digits' => 'Tahun pembuatan harus 4 digit',
             'no_stnk.required' => 'Nomor STNK wajib diisi',
+            'no_stnk.unique' => 'Nomor STNK sudah digunakan',
             'no_stnk.max' => 'Nomor STNK maksimal 20 karakter',
             'tgl_expired_kir.required' => 'Tanggal expired KIR wajib diisi',
             'tgl_expired_stnk.required' => 'Tanggal expired STNK wajib diisi',

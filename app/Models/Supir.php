@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Supir extends Model
 {
     use SoftDeletes;
-
     protected $table = 'supir';
     protected $primaryKey = 'supir_id';
 
