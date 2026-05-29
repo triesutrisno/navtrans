@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transporter;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class TransporterController extends Controller
 {
@@ -44,12 +45,14 @@ class TransporterController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'transporter_nama' => [
+             'transporter_nama' => [
                 'required',
                 'max:100',
+                Rule::unique('transporter', 'transporter_nama')
+                    ->whereNull('deleted_at')
             ],
             'transporter_pic' => [
-                'nullable',
+               'required',
                 'max:100',
             ],
             'transporter_hp' => [
@@ -61,7 +64,9 @@ class TransporterController extends Controller
             ],
         ], [
             'transporter_nama.required' => 'Nama transporter wajib diisi',
+            'transporter_nama.unique' => 'Nama transporter sudah digunakan',
             'transporter_nama.max' => 'Nama transporter maksimal 100 karakter',
+            'transporter_pic.required' => 'Nama PIC wajib diisi',
             'transporter_pic.max' => 'Nama PIC maksimal 100 karakter',
             'transporter_hp.required' => 'No HP transporter wajib diisi',
             'transporter_hp.max' => 'No HP maksimal 20 karakter',
@@ -108,9 +113,12 @@ class TransporterController extends Controller
             'transporter_nama' => [
                 'required',
                 'max:100',
+                Rule::unique('transporter', 'transporter_nama')
+                    ->ignore($id, 'transporter_id')
+                    ->whereNull('deleted_at')
             ],
             'transporter_pic' => [
-                'nullable',
+                'required',
                 'max:100',
             ],
             'transporter_hp' => [
@@ -122,7 +130,8 @@ class TransporterController extends Controller
             ],
         ], [
             'transporter_nama.required' => 'Nama transporter wajib diisi',
-            'transporter_nama.max' => 'Nama transporter maksimal 100 karakter',
+            'transporter_nama.max' => 'Nama transporter maksimal 100 karakter',            
+            'transporter_pic.required' => 'Nama PIC wajib diisi',
             'transporter_pic.max' => 'Nama PIC maksimal 100 karakter',
             'transporter_hp.required' => 'No HP transporter wajib diisi',
             'transporter_hp.max' => 'No HP maksimal 20 karakter',
