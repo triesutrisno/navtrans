@@ -20,7 +20,6 @@ class KotaController extends Controller
         }
 
         $data = Kota::with('propinsi')
-            ->whereNull('deleted_at')
             ->paginate(10);
 
         return view('kota.index', [

@@ -20,7 +20,6 @@ class KecamatanController extends Controller
         }
 
         $data = Kecamatan::with('kota')
-            ->whereNull('deleted_at')
             ->paginate(10);
 
         return view('kecamatan.index', [

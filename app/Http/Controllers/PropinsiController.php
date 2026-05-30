@@ -54,6 +54,8 @@ class PropinsiController extends Controller
             'propinsi_nama' => [
                 'required',
                 'max:100',
+                Rule::unique('m_propinsi', 'propinsi_nama')
+                    ->whereNull('deleted_at')
             ],
         ], [
             'propinsi_kode.required' => 'Kode provinsi wajib diisi',
@@ -61,6 +63,7 @@ class PropinsiController extends Controller
             'propinsi_kode.unique' => 'Kode provinsi sudah digunakan',
             'propinsi_nama.required' => 'Nama provinsi wajib diisi',
             'propinsi_nama.max' => 'Nama provinsi maksimal 100 karakter',
+            'propinsi_nama.unique' => 'Nama provinsi sudah digunakan',
         ]);
 
         Propinsi::create([
@@ -106,7 +109,10 @@ class PropinsiController extends Controller
             ],
             'propinsi_nama' => [
                 'required',
-                'max:100',
+                'max:100',                
+                Rule::unique('m_propinsi', 'propinsi_nama')
+                    ->ignore($id, 'id')
+                    ->whereNull('deleted_at')
             ],
         ], [
             'propinsi_kode.required' => 'Kode provinsi wajib diisi',
@@ -114,6 +120,7 @@ class PropinsiController extends Controller
             'propinsi_kode.unique' => 'Kode provinsi sudah digunakan',
             'propinsi_nama.required' => 'Nama provinsi wajib diisi',
             'propinsi_nama.max' => 'Nama provinsi maksimal 100 karakter',
+            'propinsi_nama.unique' => 'Nama provinsi sudah digunakan',
         ]);
 
         $data->update([

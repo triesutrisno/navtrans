@@ -21,7 +21,6 @@ class ArmadaController extends Controller
         }
 
         $data = Fleet::with(['transporter', 'supir', 'jenisFleet'])
-            ->where('flag_deleted', '0')
             ->paginate(10);
 
         return view('armada.index', compact('data'));
@@ -131,7 +130,7 @@ class ArmadaController extends Controller
 
     public function edit($id)
     {
-        if (!hasMenuAccess(self::MENU_ID, 'mru')) {
+        if (!hasMenuAccess(self::MENU_ID, 'mru')) { 
             return redirect('/armada')
                 ->with('error', 'Anda tidak memiliki akses untuk mengubah data di halaman tersebut');
         }

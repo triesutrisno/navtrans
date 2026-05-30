@@ -20,7 +20,7 @@ class SupirController extends Controller
         }
 
         $data = Supir::with(['transporter', 'jenisSim', 'fleets'])
-            ->whereNull('deleted_at')
+            //->whereNull('deleted_at')
             ->paginate(10);
 
         return view('supir.index', compact('data'));
