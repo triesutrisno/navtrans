@@ -20,7 +20,7 @@ class LokasiController extends Controller
         }
 
         $data = Lokasi::with('kecamatan')
-            ->whereNull('deleted_at')
+            //->whereNull('deleted_at')
             ->paginate(10);
 
         return view('lokasi.index', [
@@ -186,7 +186,8 @@ class LokasiController extends Controller
             'lokasi_kode' => [
                 'required',
                 'max:20',
-                Rule::unique('m_lokasi', 'lokasi_kode')->ignore($id, 'id'),
+                Rule::unique('m_lokasi', 'lokasi_kode')
+                    ->ignore($id, 'id'),
             ],
             'lokasi_nama' => [
                 'required',
